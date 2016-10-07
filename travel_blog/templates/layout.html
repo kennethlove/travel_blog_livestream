@@ -1,0 +1,11 @@
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>{% block title %}{% endblock %}Travel Blog</title>
+	</head>
+	<body>
+		{% block content %}{% endblock %}
+		<script src="https://maps.googleapis.com/maps/api/js?key=API_KEY_GOES_HERE&callback=initMap" async defer></script>
+	</body>
+</html>

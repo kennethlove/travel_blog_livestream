@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block title %}Posts {% endblock %}
+
+{% block content %}
+<ul>
+	{% for object in object_list %}
+	<li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
+	{% endfor %}
+</ul>
+
+<div id="posted_from" style="height: 500px; width: 500px;"></div>
+
+<script>
+	var map;
+
+	function initMap() {
+		map = new google.maps.Map(document.getElementById('posted_from'), {
+			center: { lat: 0, lng: 0 },
+			zoom: 1
+		});
+
+		{% for object in object_list %}
+		var marker = new google.maps.Marker({
+			position: {lat: {{ object.latlng.0 }}, lng: {{ object.latlng.1 }}},
+			map: map,
+			title: "{{ object.title }}"
+		});
+		{% endfor %}
+	}
+</script>
+{% endblock %}

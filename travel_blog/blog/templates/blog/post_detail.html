@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% load humanize %}
+
+{% block title %}{{ object.title }} {% endblock %}
+
+{% block content %}
+<p><a href="{% url 'blog:list' %}">&larr;</a></p>
+<h1>{{ object.title }}</h1>
+<time title="{{ object.published_at }}">Published {{ object.published_at|naturalday }}</time>
+<hr>
+{{ object.content_html|safe }}
+<hr>
+{% for image in object.images.all %}
+<figure>
+	<img src="{{ image.upload.url }}">
+	<p>{{ image.description }}</p>
+</figure>
+{% endfor %}
+
+
+<div id="posted_from" style="height: 500px; width: 500px;"></div>
+
+<script>
+	var map;
+	var post_lat = {{ object.latlng.0 }};
+	var post_lng = {{ object.latlng.1 }};
+
+	function initMap() {
+		map = new google.maps.Map(document.getElementById('posted_from'), {
+			center: { lat: post_lat, lng: post_lng },
+			zoom: 13
+		});
+		marker = new google.maps.Marker({
+			position: { lat: post_lat, lng: post_lng },
+			map: map,
+			title: 'hello'
+		});
+	}
+</script>
+{% endblock %}
